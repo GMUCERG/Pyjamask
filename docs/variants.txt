@@ -54,3 +54,61 @@ Authenticated encryption:
 
 Authenticated decryption:
 378
+
+--------------------------------
+
+
+v2: Pyjamask128fast
+
+a.  Design goal
+
+* Pipeline implementation of round mixrows component
+Support for authenticated encryption and decryption (Hashing is not a feature of this algorithm)
+Folded architecture, maximize throughput given the following constraints:
+       1) < 2000 LUTs
+       2) No BRAMs
+       3) no DSP units
+
+      
+b.  Supported maximum sizes of inputs
+
+2^16-1 Bytes
+
+c.  Reference software implementation
+
+https://github.com/pyjamask-cipher/pyjamask-reference-implementation
+src_sw/crypto_aead/pyjamask128aeadv1/ref/
+
+d.  Non-default values of generics and constants
+
+None
+
+e.  Block sizes
+
+AD block size = 128 bites
+Plaintext/Ciphertext block size = 128 bits
+
+f.  Execution times
+
+Execution time of authenticated encryption:
+340 + NPUB[5..0] + 9 + (98*Na) + (94*Ina) + 5 + (102*Nm) + (98*Inm) + 94
+
+Execution time of authenticated decryption:
+340 + NPUB[5..0] + (98*Na) + (94*Ina) + 5 + (102*Nc) + (98*Inc) + 93
+
+g.  Latencies
+
+Latency of authenticated encryption:
+93
+
+Latency of authenticated decryption:
+93
+
+h.  Difference between execution times for a new key and the same key
+Ignoring the influence of NPUB[5..0]
+
+Authenticated encryption:
+243
+
+Authenticated decryption:
+243
